@@ -1,3 +1,3 @@
 # python-scraper-prawapi
 
-Updating to main branch only. Testing phase.
+Updating to main branch only. Testing
