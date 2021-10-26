@@ -6,7 +6,7 @@ import requests
 
 reddit = praw.Reddit()
 
-class StockPost(object):
+class TreePost(object):
     def __init__(self, postID, postURL, ups, downs, numComments, stock):
         self.postID = postID
         self.url = postURL
@@ -49,11 +49,11 @@ class SubredditScraper:
 
     def get_posts(self):
 
-        stockTickers = {}
-        with open('tickers.csv', mode='r') as infile:
+        GeoLocations = {}
+        with open('geotargets.csv', mode='r') as infile:
             reader = csv.reader(infile)
             for row in reader:
-                stockTickers[row[0].split(',')[0]] = {}
+                GeoLocations[row[0].split(',')[0]] = {}
         """Get unique posts from a specified subreddit."""
 
         # Attempt to specify a sorting method.
@@ -66,13 +66,13 @@ class SubredditScraper:
             i = i + 1
             print(i)
             if post.link_flair_text != 'humor':
-                for stock in stockTickers.keys():
+                for stock in GeoLocations.keys():
                     if(re.search(r'\s+\$?' + stock + r'\$?\s+', post.selftext) or re.search(r'\s+\$?' + stock + r'\$?\s+',  post.title)):
-                        stockTickers[stock][post.id] = StockPost(post.id, post.permalink, post.ups, post.downs, post.num_comments, stock)
-        for stock in stockTickers:
-            if (len(stockTickers[stock]) > 0):
-                for post in stockTickers[stock]:
-                    mentionedStocks.append(stockTickers[stock][post]) 
+                        GeoLocations[stock][post.id] = TreePost(post.id, post.permalink, post.ups, post.downs, post.num_comments, stock)
+        for stock in GeoLocations:
+            if (len(GeoLocations[stock]) > 0):
+                for post in GeoLocations[stock]:
+                    mentionedStocks.append(GeoLocations[stock][post]) 
         json_object = json.dumps(mentionedStocks, default=jsonDefEncoder, indent = 4)   
         print(json_object)  
 
