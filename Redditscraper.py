@@ -67,7 +67,7 @@ class SubredditScraper:
             print(i)
             if post.link_flair_text != 'humor':
                 for stock in GeoLocations.keys():
-                    if(re.search(r'\s+\$?' + stock + r'\$?\s+', post.selftext) or re.search(r'\s+\$?' + stock + r'\$?\s+',  post.title)):
+                    if(re.search(r'\s+\$?' + stock + r'\$?\s+',  post.title)):
                         GeoLocations[stock][post.id] = TreePost(post.id, post.permalink, post.ups, post.downs, post.num_comments, stock)
         for stock in GeoLocations:
             if (len(GeoLocations[stock]) > 0):
